@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Income Tracker - সুন্দর ডিজাইন</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> <!-- Added Font Awesome for icon -->
+    <link rel="stylesheet" href="gs.css" title="" type="" />
+    <style>
+        :root {
+            --primary-color: #28a745; /* Green */
+            --primary-dark-color: #218838;
+            --secondary-color: #f8f9fa; /* Light gray */
+            --text-color: #333;
+            --border-color: #dee2e6;
+            --glow-color: rgba(40, 167, 69, 0.5); /* Green glow */
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --hover-bg-color: #e9ecef; /* Light hover for table rows */
+            --white-color: #ffffff;
+            --font-family: 'Poppins', sans-serif;
+            --border-radius: 8px;
+            --transition-speed: 0.3s;
+            --error-color: #dc3545; /* Red for delete */
+            --error-dark-color: #c82333;
+            --warning-color: #ffc107; /* Yellow for countdown */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+          zoom: 2.4;
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 20px;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: ;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: var(--white-color);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px var(--shadow-color);
+            animation: fadeIn 0.5s ease-out;
+            position: relative; /* Needed for positioning absolute elements like alerts */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+
+        h1, h2 {
+            text-align: center;
+            color: var(--primary-dark-color);
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px var(--shadow-color);
+        }
+
+        h2 {
+            font-size: 1.8em;
+            margin-top: 30px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        form {
+            margin-bottom: 30px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background-color: #fdfdfd;
+            box-shadow: 0 2px 8px var(--shadow-color);
+            transition: box-shadow var(--transition-speed) ease;
+        }
+
+        form:hover {
+             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        input[type="date"],
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 1em;
+            font-family: var(--font-family);
+            transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+        }
+
+        input[type="date"]:focus,
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px var(--glow-color);
+        }
+
+        button[type="submit"] {
+            padding: 12px 25px;
+            background-image: linear-gradient(to right, var(--primary-color), var(--primary-dark-color));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            font-family: var(--font-family);
+            width: 100%;
+            margin-top: 10px;
+            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, background-image var(--transition-speed) ease;
+            box-shadow: 0 2px 5px rgba(40, 167, 69, 0.4);
+        }
+
+        button[type="submit"]:hover {
+            background-image: linear-gradient(to right, var(--primary-dark-color), #1c7430);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(40, 167, 69, 0.6);
+        }
+
+        button[type="submit"]:active {
+             transform: translateY(0px);
+             box-shadow: 0 2px 5px rgba(40, 167, 69, 0.4);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 3px 10px var(--shadow-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid var(--border-color); /* Adjusted border */
+        }
+        /* Remove left/right borders for a cleaner look */
+        th, td {
+            
+        }
+        /* Keep top border for header and bottom for last row */
+         th {
+             border-top: 1px solid var(--border-color);
+         }
+        tbody tr:last-child td {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+
+        th {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-top: none; /* Remove top border from header cells */
+        }
+         /* Ensure first header cell has top-left radius */
+        th:first-child {
+            border-top-left-radius: var(--border-radius);
+        }
+        /* Ensure last header cell has top-right radius */
+        th:last-child {
+            border-top-right-radius: var(--border-radius);
+        }
+         /* Ensure last row cells have bottom radius */
+        tbody tr:last-child td:first-child {
+            border-bottom-left-radius: var(--border-radius);
+        }
+        tbody tr:last-child td:last-child {
+            border-bottom-right-radius: var(--border-radius);
+             border-bottom: none; /* Remove default bottom border from cell */
+        }
+         /* Add bottom border back to table container */
+        table {
+             border-bottom: 1px solid var(--border-color);
+        }
+
+        tbody tr {
+            background-color: var(--white-color);
+            transition: background-color var(--transition-speed) ease;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tbody tr:hover {
+            background-color: var(--hover-bg-color);
+        }
+
+        td:last-child { /* Style the amount column */
+            font-weight: 500;
+            text-align: right;
+            font-feature-settings: "tnum";
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Total Section Styling */
+        .total-delete-section {
+            margin-top: 30px;
+            display: flex; /* Use flexbox */
+            justify-content: space-between; /* Space out total and delete */
+            align-items: center; /* Vertically align items */
+            padding: 15px;
+            background-color: #e9f5ec;
+            border-radius: var(--border-radius);
+            border: 1px solid #c3e6cb;
+            
+        }
+
+        #totalSection {
+            /* Removed margin-top, padding, background, border - handled by parent */
+            font-weight: 600;
+            font-size: 1.3em;
+            color: var(--primary-dark-color);
+            width: ;
+        }
+
+        #totalAmount {
+            font-weight: 700;
+            margin-left: 10px;
+            font-feature-settings: "tnum";
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Delete Button Styling */
+        #deleteContainer {
+             position: relative; /* Context for absolute positioning of confirmation */
+        }
+
+        #deleteAllBtn {
+            background-color: var(--error-color);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color var(--transition-speed), transform var(--transition-speed);
+            font-size: 0.9em;
+        }
+        #deleteAllBtn:hover {
+            background-color: var(--error-dark-color);
+            transform: scale(1.05);
+        }
+        #deleteAllBtn i {
+            margin-right: 5px; /* Space between icon and text */
+        }
+
+        /* Delete Confirmation Styling */
+        #deleteConfirmation {
+            display: none; /* Hidden by default */
+            position: absolute; /* Position relative to deleteContainer */
+            right: 0;
+            bottom: calc(100% + 10px); /* Position above the button */
+            background-color: var(--warning-color);
+            color: #333;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            z-index: 10;
+            width: 250px; /* Adjust as needed */
+            text-align: center;
+            border: 1px solid #dda600;
+        }
+        #deleteConfirmation p {
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+         #deleteCountdown {
+             font-weight: bold;
+             font-size: 1.1em;
+         }
+        #cancelDeleteBtn {
+            background-color: #6c757d; /* Gray */
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color var(--transition-speed);
+            margin-top: 10px;
+        }
+        #cancelDeleteBtn:hover {
+            background-color: #5a6268;
+        }
+
+        /* Success Alert Styling */
+        #successAlert {
+            display: none; /* Hidden by default */
+            position: fixed; /* Fixed position on screen */
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%); /* Center horizontally */
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            opacity: 0; /* Start hidden for fade effect */
+            transition: opacity 0.5s ease, top 0.5s ease;
+        }
+        #successAlert.show {
+            display: block; /* Make it take space */
+            opacity: 1;
+            top: 30px; /* Move slightly down */
+        }
+
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+            th, td {
+                padding: 10px 8px;
+                font-size: 0.9em;
+            }
+            button[type="submit"] {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+            .total-delete-section {
+                flex-direction: column; /* Stack total and delete on small screens */
+                align-items: flex-end; /* Align items to the right */
+                padding: 10px;
+            }
+            #totalSection {
+                font-size: 1.1em;
+                margin-bottom: 10px; /* Add space below total when stacked */
+            }
+            #deleteAllBtn {
+                padding: 6px 10px;
+                font-size: 0.85em;
+            }
+            #deleteConfirmation {
+                 /* Adjust position for stacked layout if needed */
+                 width: 90%;
+                 bottom: auto;
+                 top: calc(100% + 10px); /* Position below button */
+                 left: 50%;
+                 transform: translateX(-50%);
+            }
+             #successAlert {
+                 width: 80%;
+                 padding: 12px 20px;
+                 font-size: 0.9em;
+             }
+        }
+img{
+        height: 90px;
+        width: 90px;
+        padding: 2.5px;
+        background-color: white;
+        border-radius: 50%;
+        box-shadow: 1px 1px 20px ,
+                   -1px -1px 20px ;
+        margin-top: 10px;
+        mar
+      }
+      .pm{
+        padding-bottom: ;
+        padding-top: ;
+        height: 90%;
+        width: 92%;
+        background-color: none;
+        margin-left: 4%;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px ,
+                   -0px -0px 10px;
+        font-size: 28px;
+        margin-top: -17px;
+        margin-bottom: ;
+        font-family: ;
+      }
+      .ww{
+        text-align: center;
+      }
+      #deleteContainer{
+        border: 0.6px solid #f3f3;
+        padding: 5px;
+        border-radius: 3px;
+      }
+            footer {
+        background-color: #337;
+        color: #fff;
+        padding: 10px;
+        text-align: ;
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        text-align: ;
+      }
+        .fot{
+       text-decoration: none;
+       color: white;
+       font-size: 17px;
+       padding: 5px;
+       margin-left: 5px;
+      }
+    </style>
+</head>
+<body>
+  <div class="ww">
+    
+
+  <img id="clickTarget" src="https://i.ibb.co.com/VGMRnFj/1744019580005.jpg" alt="" />
+   <div class="pm">
+    Abdul Mozid
+  </div><br /><br />
+    </div>
+    <!-- Success Alert Placeholder -->
+    <div id="successAlert">Data saved successfully!</div>
+
+    <div class="container">
+         <h2>ব্যয়কৃত অর্থের হিসাব:</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>তারিখ</th> <!-- Updated Header -->
+                    <th>খরচের খাত</th>
+                    <th>টাকা</th>
+                </tr>
+            </thead>
+            <tbody id="dataTableBody">
+                <!-- Data will be loaded here by JavaScript -->
+            </tbody>
+        </table> <br />
+
+        <!-- Combined Total and Delete Section -->
+        <div class="total-delete-section">
+            
+            <div id="totalSection">
+                <span>মোট খরচ:</span> <span id="totalAmount">0.00</span>
+            </div>
+            <div id="deleteContainer">
+              
+                <button id="deleteAllBtn"><i class="fas fa-trash-alt"></i> Delete All</button>
+                <!-- Delete Confirmation Popup -->
+                <div id="deleteConfirmation">
+                    <p>Delete all data in <span id="deleteCountdown">10</span> seconds?</p>
+                    <button id="cancelDeleteBtn">Cancel</button>
+                </div>
+           </div>
+        </div>
+
+        <br /><hr /><br />
+        <h1>হিসাব যোগ করুন</h1>
+        <form id="incomeForm">
+            <div>
+                <label for="dateInput">তারিখ:</label>
+                <!-- Keep input type="date" for easy selection -->
+                <input type="date" id="dateInput" required>
+            </div>
+            <div>
+                <label for="textInput">খরচের খাত:</label>
+                <input type="text" id="textInput" placeholder="Enter description" required>
+            </div>
+            <div>
+                <label for="numberInput">টাকা:</label>
+                <!-- Allow decimals in input, but will floor on save -->
+                <input type="number" id="numberInput" placeholder="Enter amount" step="any" required>
+            </div>
+            <button type="submit">Add Entry</button>
+        </form>
+    </div> <!-- End container -->
+<footer>
+    <a class="fot" href="https://www.facebook.com/4nazrul.islam">© 2024 created by 
+    . MD NAZRUL ISLAM.</a>
+</footer>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+
+
+        <script type="text/javascript" charset="utf-8">
+        // Your Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyDMtl_OolzCM699u8GsXYByKGzCdZcZE0g", // WARNING: Keep API keys secure!
+          authDomain: "income-details-7831b.firebaseapp.com",
+          databaseURL: "https://income-details-7831b-default-rtdb.firebaseio.com",
+          projectId: "income-details-7831b",
+          storageBucket: "income-details-7831b.appspot.com",
+          messagingSenderId: "879276775958",
+          appId: "1:879276775958:web:14546def9134efc5c4b337"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const entriesRef = database.ref('incomeEntries');
+
+        // Get DOM elements
+        const incomeForm = document.getElementById('incomeForm');
+        const dateInput = document.getElementById('dateInput');
+        const textInput = document.getElementById('textInput');
+        const numberInput = document.getElementById('numberInput');
+        const dataTableBody = document.getElementById('dataTableBody');
+        const totalAmountSpan = document.getElementById('totalAmount');
+        const successAlert = document.getElementById('successAlert'); // Alert element
+        const deleteAllBtn = document.getElementById('deleteAllBtn'); // Delete button
+        const deleteConfirmation = document.getElementById('deleteConfirmation'); // Confirmation popup
+        const deleteCountdownSpan = document.getElementById('deleteCountdown'); // Countdown display
+        const cancelDeleteBtn = document.getElementById('cancelDeleteBtn'); // Cancel button
+
+        let currentTotal = 0;
+        let deleteTimer = null; // To store the interval ID for the countdown
+        let countdownValue = 10; // Initial countdown seconds
+
+        // --- Helper Functions ---
+
+        // Function to show the success alert
+        const showSuccessAlert = (message = "Data saved successfully!") => {
+            successAlert.textContent = message;
+            successAlert.classList.add('show');
+            // Automatically hide after a few seconds
+            setTimeout(() => {
+                // Check if the alert is still visible before removing the class
+                 if (successAlert.classList.contains('show')) {
+                    successAlert.classList.remove('show');
+                 }
+            }, 3000); // Hide after 3 seconds
+        };
+
+        // Function to format date as dd/mm
+        const formatDateDDMM = (dateString) => {
+            if (!dateString || !dateString.includes('-')) return dateString; // Handle invalid/missing date
+            const parts = dateString.split('-'); // yyyy-mm-dd
+            if (parts.length === 3) {
+                return `${parts[2]}/${parts[1]}`; // dd/mm
+            }
+            return dateString; // Fallback
+        };
+
+        // Function to add a row to the table
+        const addEntryToTable = (entryData, entryId) => {
+            // *** MODIFIED LINE: Insert row at the end instead of the beginning ***
+            const newRow = dataTableBody.insertRow(); // Appends row to the end
+
+            newRow.setAttribute('data-id', entryId);
+            // Store the amount as saved in Firebase (integer in this case)
+            newRow.setAttribute('data-amount', entryData.amount);
+            newRow.style.opacity = 0; // Start transparent for animation
+
+            const dateCell = newRow.insertCell(0);
+            const textCell = newRow.insertCell(1);
+            const numberCell = newRow.insertCell(2);
+
+            // Format date to dd/mm
+            dateCell.textContent = formatDateDDMM(entryData.date);
+            textCell.textContent = entryData.description;
+            // Display amount with two decimal places, even if stored as integer
+            numberCell.textContent = parseFloat(entryData.amount).toString();
+            numberCell.style.textAlign = 'right'; // Keep explicit alignment
+
+            // Simple fade-in animation using JS
+            setTimeout(() => {
+                newRow.style.transition = 'opacity 0.5s ease';
+                newRow.style.opacity = 1;
+            }, 50); // Short delay
+
+            updateTotal(); // Update total after adding row visually
+        };
+
+
+        // Function to calculate and display the total sum
+        const updateTotal = () => {
+            currentTotal = 0;
+            const rows = dataTableBody.querySelectorAll('tr');
+            rows.forEach(row => {
+                // Use the data-amount attribute, which reflects the stored value
+                const amount = parseFloat(row.getAttribute('data-amount'));
+                if (!isNaN(amount)) {
+                    currentTotal += amount;
+                }
+            });
+            totalAmountSpan.textContent = currentTotal.toString();
+        };
+
+        // Function to reset delete UI
+        const resetDeleteUI = () => {
+            clearInterval(deleteTimer); // Stop any existing timer
+            deleteTimer = null;
+            countdownValue = 10; // Reset countdown value
+            deleteConfirmation.style.display = 'none'; // Hide confirmation
+            deleteAllBtn.disabled = false; // Re-enable delete button
+            deleteCountdownSpan.textContent = countdownValue; // Reset countdown display
+        };
+
+        // --- Event Listeners ---
+
+        // 1. Listen for form submission
+        incomeForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const dateValue = dateInput.value;
+            const textValue = textInput.value.trim();
+            const numberValueInput = parseFloat(numberInput.value); // Get value user entered
+
+            // Basic validation
+            if (!dateValue || !textValue || isNaN(numberValueInput) || numberValueInput <= 0) {
+                alert('Please fill in all fields correctly and enter a positive amount.');
+                if (!dateValue) dateInput.style.borderColor = 'red'; else dateInput.style.borderColor = '';
+                if (!textValue) textInput.style.borderColor = 'red'; else textInput.style.borderColor = '';
+                if (isNaN(numberValueInput) || numberValueInput <= 0) numberInput.style.borderColor = 'red'; else numberInput.style.borderColor = '';
+                return;
+            } else {
+                // Clear error styles if valid
+                dateInput.style.borderColor = '';
+                textInput.style.borderColor = '';
+                numberInput.style.borderColor = '';
+            }
+
+            // Convert amount to integer (floor) before saving
+            const amountToSave = Math.floor(numberValueInput);
+
+            // Create entry object
+            const newEntry = {
+                date: dateValue,
+                description: textValue,
+                amount: amountToSave, // Save the floored integer amount
+                timestamp: firebase.database.ServerValue.TIMESTAMP // Add server timestamp for ordering
+            };
+
+            // Push data to Firebase Realtime Database
+            entriesRef.push(newEntry)
+                .then(() => {
+                    console.log('Data saved successfully!');
+                    // Show designed alert
+                    showSuccessAlert("Entry added successfully!");
+                    incomeForm.reset();
+                    // Set default date back to today after reset
+                    const today = new Date().toISOString().split('T')[0];
+                    dateInput.value = today;
+                    // Note: The 'child_added' listener below will handle adding the row to the table
+                })
+                .catch((error) => {
+                    console.error('Error saving data: ', error);
+                    alert('Failed to save data. Check console for errors.'); // Keep basic alert for errors
+                });
+        });
+
+        // 2. Listen for new entries added to Firebase - ORDERED BY TIMESTAMP
+        // This ensures Firebase sends items in chronological order, which works
+        // perfectly with appending rows to the end of the table.
+        entriesRef.orderByChild('timestamp').on('child_added', (snapshot) => {
+            const entryData = snapshot.val();
+            const entryId = snapshot.key;
+            addEntryToTable(entryData, entryId); // Add the new entry to the *end* of the table
+        });
+
+        // 3. Listen for entries removed from Firebase
+        entriesRef.on('child_removed', (snapshot) => {
+            const removedRow = dataTableBody.querySelector(`tr[data-id="${snapshot.key}"]`);
+            if (removedRow) {
+                // Optional: Add fade-out animation
+                removedRow.style.transition = 'opacity 0.3s ease';
+                removedRow.style.opacity = 0;
+                setTimeout(() => {
+                    // Ensure the row still exists in the table body before removing
+                    if (removedRow.parentNode === dataTableBody) {
+                        dataTableBody.removeChild(removedRow);
+                    }
+                    updateTotal(); // Recalculate total after removal animation
+                }, 300); // Match transition duration
+            } else {
+                 // If row not found (e.g., during mass delete), still update total
+                 updateTotal();
+            }
+        });
+
+        // 4. Listen for Delete All button click
+        deleteAllBtn.addEventListener('click', () => {
+            if (deleteTimer) return; // Already counting down
+
+             // Check if there's actually data to delete
+             if (dataTableBody.rows.length === 0) {
+                 showSuccessAlert("Nothing to delete!");
+                 return;
+             }
+
+            deleteAllBtn.disabled = true; // Disable button during countdown
+            deleteConfirmation.style.display = 'block'; // Show confirmation box
+            countdownValue = 10; // Reset countdown
+            deleteCountdownSpan.textContent = countdownValue;
+
+            deleteTimer = setInterval(() => {
+                countdownValue--;
+                deleteCountdownSpan.textContent = countdownValue;
+
+                if (countdownValue <= 0) {
+                    clearInterval(deleteTimer); // Stop timer
+                    deleteTimer = null;
+                    console.log('Deleting all entries...');
+
+                    // --- Perform the Deletion ---
+                    entriesRef.remove() // Remove all data under 'incomeEntries'
+                        .then(() => {
+                            console.log('All data successfully deleted from Firebase.');
+                            // The 'child_removed' listener will handle removing rows from the UI.
+                            // We clear the table body directly for instant visual feedback,
+                            // and prevent potential issues if child_removed events lag.
+                            dataTableBody.innerHTML = ''; // Clear table immediately
+                            updateTotal(); // Update total immediately
+                            showSuccessAlert("All entries deleted.");
+                        })
+                        .catch((error) => {
+                            console.error('Error deleting data: ', error);
+                            alert('Failed to delete data. Check console.');
+                        })
+                        .finally(() => {
+                            // Ensure UI is reset regardless of success/failure
+                            resetDeleteUI();
+                        });
+                }
+            }, 1000); // Run every second
+        });
+
+        // 5. Listen for Cancel Delete button click
+        cancelDeleteBtn.addEventListener('click', () => {
+            resetDeleteUI();
+            console.log('Deletion cancelled.');
+            showSuccessAlert("Deletion cancelled."); // Give feedback
+        });
+
+
+        // --- Initial Load ---
+        // Set default date to today (optional, but user-friendly)
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.value = today;
+
+        // The 'child_added' listener (ordered by timestamp) automatically handles
+        // loading existing data in the correct order when the page loads.
+        // We call updateTotal once initially in case the table starts empty or connection is slow.
+        updateTotal();
+
+    </script>
+</body>
+</html>
