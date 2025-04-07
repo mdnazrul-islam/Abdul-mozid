@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>আব্দুল মজিদ - খরচের হিসাব</title>
+    <link rel="icon" href="https://i.ibb.co.com/VGMRnFj/1744019580005.jpg" type="image/jpeg" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- <link rel="stylesheet" href="gs.css"> File not provided, commented out -->
+    <style>
+        :root {
+            --primary-color: #1e8449; /* Darker Green */
+            --primary-light-color: #2ecc71; /* Brighter Green */
+            --primary-dark-color: #145a32; /* Even Darker Green */
+            --secondary-color: #f4f6f6; /* Light Grey Background */
+            --text-color: #34495e; /* Dark Blue-Grey Text */
+            --text-light-color: #566573;
+            --border-color: #d5dbdb; /* Light Border */
+            --glow-color: rgba(30, 132, 73, 0.3); /* Green Glow */
+            --shadow-color: rgba(40, 55, 71, 0.1);
+            --hover-bg-color: #e8f6ef; /* Light Greenish Hover */
+            --white-color: #ffffff;
+            --error-color: #e74c3c; /* Red for delete */
+            --error-dark-color: #c0392b;
+            --warning-color: #f39c12; /* Yellow for countdown */
+            --font-family-body: 'Noto Sans Bengali', 'Poppins', sans-serif; /* Added Bengali font first */
+            --border-radius: 8px;
+            --transition-speed: 0.3s;
+            --container-max-width: 850px;
+            --header-height: 70px; /* Example header height */
+            --footer-height: 50px; /* Example footer height */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+           scroll-padding-top: var(--header-height); /* Adjust for fixed header if you add one */
+        }
+
+        body {
+            font-family: var(--font-family-body);
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            padding-bottom: calc(var(--footer-height) + 30px); /* Space for footer */
+        }
+
+        .container-wrapper {
+            width: 100%;
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+        }
+
+        /* Header Section */
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: var(--white-color);
+            border-radius: var(--border-radius);
+            box-shadow: 0 3px 10px var(--shadow-color);
+            animation: slideDownFadeIn 0.6s ease-out;
+            border-top: 4px solid var(--primary-color);
+        }
+
+        .profile-header img {
+            height: 100px;
+            width: 100px;
+            padding: 4px;
+            background-color: var(--white-color);
+            border: 2px solid var(--primary-light-color);
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
+            margin-bottom: 15px;
+            transition: transform var(--transition-speed) ease;
+        }
+         .profile-header img:hover {
+             transform: scale(1.05) rotate(5deg);
+         }
+
+
+        .profile-header .name {
+            font-size: 2em; /* Larger Name */
+            font-weight: 700;
+            color: var(--primary-dark-color);
+            margin-bottom: 0;
+        }
+
+        /* Main Content Container */
+        .content-container {
+            width: 100%;
+            background-color: var(--white-color);
+            padding: 30px 35px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px var(--shadow-color);
+            animation: fadeIn 0.7s ease-out 0.2s; /* Delayed fade in */
+            animation-fill-mode: backwards; /* Start invisible before animation */
+            position: relative; /* Needed for positioning absolute elements like alerts */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideDownFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: var(--primary-dark-color);
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        h1 { /* হিসাব যোগ করুন */
+            font-size: 1.9em;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-light-color);
+            display: inline-block;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        h2 { /* ব্যয়কৃত অর্থের হিসাব */
+            font-size: 1.7em;
+            margin-top: 0; /* Adjusted as it's first in container */
+            margin-bottom: 25px;
+        }
+
+        /* Form Styling */
+        form {
+            margin-bottom: 35px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background-color: #fdfdfd; /* Slightly off-white */
+            transition: box-shadow var(--transition-speed) ease;
+            position: relative; /* For potential future form loading indicators */
+        }
+        form:hover {
+             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-light-color);
+            font-size: 0.95em;
+        }
+
+        input[type="date"],
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 18px; /* Increased spacing */
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 1em;
+            font-family: var(--font-family-body);
+            transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            background-color: #fff;
+        }
+        input[type="date"] {
+            color-scheme: light; /* Force light mode for date picker consistency */
+        }
+
+        input[type="date"]:focus,
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px var(--glow-color);
+        }
+        /* Style number input arrows (minimal) */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+           opacity: 0.3;
+        }
+
+        button[type="submit"] {
+            display: flex; /* Allows icon centering */
+            align-items: center;
+            justify-content: center;
+            gap: 8px; /* Space between icon and text */
+            padding: 12px 25px;
+            background-image: linear-gradient(to right, var(--primary-light-color), var(--primary-color));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            font-family: var(--font-family-body);
+            width: 100%;
+            margin-top: 10px;
+            transition: all var(--transition-speed) ease;
+            box-shadow: 0 3px 8px rgba(30, 132, 73, 0.4);
+        }
+
+        button[type="submit"]:hover {
+            background-image: linear-gradient(to right, var(--primary-color), var(--primary-dark-color));
+            transform: translateY(-3px);
+            box-shadow: 0 5px 12px rgba(20, 90, 50, 0.5);
+        }
+
+        button[type="submit"]:active {
+             transform: translateY(0px);
+             box-shadow: 0 2px 5px rgba(30, 132, 73, 0.3);
+        }
+        button[type="submit"] i {
+            font-size: 1em; /* Adjust icon size if needed */
+        }
+
+        /* Table Styling */
+        .table-container {
+            overflow-x: auto; /* Allows horizontal scrolling on small screens if needed */
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+             box-shadow: 0 3px 10px var(--shadow-color);
+             margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            /* Removed margin-top, border-radius, overflow - handled by container */
+            /* Removed box-shadow - handled by container */
+        }
+
+        th, td {
+            padding: 14px 16px; /* Slightly more padding */
+            text-align: left;
+            border-bottom: 1px solid var(--border-color); /* Only bottom borders */
+            white-space: nowrap; /* Prevent text wrapping, rely on horizontal scroll */
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            font-weight: 600;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom-width: 2px; /* Thicker border below header */
+            border-bottom-color: var(--primary-dark-color);
+        }
+
+        tbody tr {
+            background-color: var(--white-color);
+            transition: background-color var(--transition-speed) ease;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f8f9fa; /* Keep zebra striping */
+        }
+
+        tbody tr:hover {
+            background-color: var(--hover-bg-color);
+        }
+
+        tbody tr:last-child td {
+             border-bottom: none; /* No border for the last row */
+        }
+
+
+        td:last-child { /* Style the amount column */
+            font-weight: 600; /* Make amount bolder */
+            text-align: right;
+            color: var(--primary-dark-color); /* Greenish amount */
+            font-feature-settings: "tnum"; /* Tabular nums */
+            font-variant-numeric: tabular-nums;
+        }
+        td:first-child { /* Style date */
+            color: var(--text-light-color);
+            font-size: 0.95em;
+        }
+
+        /* Total & Delete Section Styling */
+        .summary-section {
+            margin-top: 20px; /* Reduced margin as table container has margin-bottom */
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px; /* Gap between items */
+            padding: 18px 20px;
+            background-color: #e8f8f5; /* Lighter green background */
+            border-radius: var(--border-radius);
+            border: 1px solid #a3e4d7; /* Light green border */
+        }
+
+        #totalSection {
+            font-weight: 600;
+            font-size: 1.25em;
+            color: var(--primary-dark-color);
+            flex-grow: 1; /* Allow total section to take available space */
+        }
+
+        #totalAmount {
+            font-weight: 700;
+            margin-left: 10px;
+            font-size: 1.1em; /* Slightly larger amount */
+            font-feature-settings: "tnum";
+            font-variant-numeric: tabular-nums;
+            background-color: var(--primary-light-color);
+            color: var(--white-color);
+            padding: 3px 8px;
+            border-radius: 4px;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* Delete Button Styling */
+        #deleteContainer {
+             position: relative; /* Context for absolute positioning of confirmation */
+             flex-shrink: 0; /* Prevent delete button from shrinking too much */
+        }
+
+        #deleteAllBtn {
+            display: inline-flex; /* Align icon and text */
+            align-items: center;
+            gap: 6px;
+            background-color: var(--error-color);
+            color: white;
+            border: none;
+            padding: 9px 15px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color var(--transition-speed), transform var(--transition-speed);
+            font-size: 0.95em;
+            font-weight: 500;
+        }
+        #deleteAllBtn:hover {
+            background-color: var(--error-dark-color);
+            transform: scale(1.03);
+        }
+        #deleteAllBtn i {
+            font-size: 0.9em;
+        }
+
+        /* Delete Confirmation Styling */
+        #deleteConfirmation {
+            display: none; /* Hidden by default */
+            position: absolute;
+            right: 0;
+            bottom: calc(100% + 10px); /* Position above the button */
+            background-color: var(--warning-color);
+            color: #333;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 10;
+            width: 260px; /* Wider for better text flow */
+            text-align: center;
+            border: 1px solid #d68910; /* Darker yellow border */
+            transform-origin: bottom right;
+            animation: popUp 0.3s ease-out;
+        }
+        @keyframes popUp {
+             from { opacity: 0; transform: scale(0.8); }
+             to { opacity: 1; transform: scale(1); }
+        }
+
+        #deleteConfirmation p {
+            margin-bottom: 12px;
+            font-size: 0.95em;
+            line-height: 1.4;
+        }
+         #deleteCountdown {
+             font-weight: bold;
+             font-size: 1.1em;
+             color: var(--error-dark-color); /* Red countdown number */
+         }
+        #cancelDeleteBtn {
+            background-color: #6c757d; /* Gray */
+            color: white;
+            border: none;
+            padding: 7px 14px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: background-color var(--transition-speed);
+            margin-top: 10px;
+        }
+        #cancelDeleteBtn:hover {
+            background-color: #5a6268;
+        }
+
+        /* Success Alert Styling */
+        #successAlert {
+            display: none; /* Hidden by default */
+            position: fixed; /* Fixed position on screen */
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%); /* Center horizontally */
+            background-color: var(--primary-color);
+            color: white;
+            padding: 14px 25px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            opacity: 0; /* Start hidden for fade effect */
+            transition: opacity 0.4s ease, top 0.4s ease;
+            font-size: 1em;
+            font-weight: 500;
+        }
+        #successAlert.show {
+            display: block; /* Make it take space */
+            opacity: 1;
+            top: 30px; /* Move slightly down */
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--text-color); /* Darker footer */
+            color: #bdc3c7; /* Lighter text for footer */
+            padding: 15px 10px;
+            text-align: center;
+            position: fixed; /* Fixed Footer */
+            bottom: 0;
+            left: 0; /* Ensure it starts from left edge */
+            width: 100%;
+            font-size: 0.9em;
+            z-index: 500; /* Below alerts */
+            height: var(--footer-height);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .fot {
+           text-decoration: none;
+           color: var(--primary-light-color); /* Link color */
+           font-weight: 500;
+           transition: color var(--transition-speed);
+        }
+        .fot:hover {
+           color: var(--white-color);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+             body {
+                 padding: 15px;
+                 padding-bottom: calc(var(--footer-height) + 20px); /* Adjust footer space */
+             }
+            .content-container {
+                padding: 25px 20px;
+            }
+            h1 { font-size: 1.7em; }
+            h2 { font-size: 1.5em; }
+            .profile-header .name { font-size: 1.7em; }
+            .profile-header img { height: 80px; width: 80px;}
+
+            th, td { padding: 12px 10px; font-size: 0.9em;}
+
+             .summary-section {
+                 flex-direction: column; /* Stack items vertically */
+                 align-items: stretch; /* Make items full width */
+                 padding: 15px;
+             }
+             #totalSection {
+                 text-align: center; /* Center total text */
+                 margin-bottom: 10px;
+                 font-size: 1.15em;
+             }
+             #deleteContainer {
+                 width: 100%; /* Make delete container full width */
+                 display: flex; /* Allow button centering if needed */
+                 justify-content: center;
+             }
+             #deleteAllBtn {
+                 width: auto; /* Adjust button width if needed, or keep auto */
+                 padding: 10px 18px;
+             }
+             #deleteConfirmation {
+                 /* Adjust position for stacked layout */
+                 width: 90%;
+                 max-width: 300px; /* Max width on mobile */
+                 left: 50%;
+                 transform: translateX(-50%);
+                 bottom: calc(100% + 10px); /* Position above the button */
+                 right: auto; /* Override desktop style */
+             }
+             #successAlert {
+                 width: 85%;
+                 padding: 12px 20px;
+                 font-size: 0.95em;
+                 bottom: calc(var(--footer-height) + 15px); /* Position above footer */
+                 top: auto; /* Override desktop style */
+             }
+              #successAlert.show {
+                 top: auto; /* Ensure top isn't interfering */
+                 bottom: calc(var(--footer-height) + 25px); /* Move slightly up */
+             }
+
+        }
+
+        @media (max-width: 480px) {
+            body { padding: 10px; padding-bottom: calc(var(--footer-height) + 15px); }
+            .content-container { padding: 20px 15px; }
+            .profile-header { padding: 15px; }
+            .profile-header img { height: 70px; width: 70px; }
+            .profile-header .name { font-size: 1.5em; }
+            h1 { font-size: 1.5em; }
+            h2 { font-size: 1.3em; }
+            button[type="submit"] { padding: 11px 20px; font-size: 1em;}
+            th, td { padding: 10px 8px; font-size: 0.85em; }
+            #totalSection { font-size: 1.1em; }
+            #totalAmount { font-size: 1em; padding: 2px 6px;}
+            #deleteAllBtn { font-size: 0.9em; padding: 9px 15px; }
+            footer { font-size: 0.8em; }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Success Alert Placeholder -->
+    <div id="successAlert">Data saved successfully!</div>
+
+    <div class="container-wrapper">
+
+        <!-- Profile Header -->
+        <header class="profile-header">
+            <img id="clickTarget" src="https://i.ibb.co.com/VGMRnFj/1744019580005.jpg" alt="Abdul Mozid Profile Picture" />
+            <div class="name">
+                আব্দুল মজিদ
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="content-container">
+            <h2><i class="fas fa-chart-line"></i> ব্যয়কৃত অর্থের হিসাব</h2>
+
+            <!-- Table Section -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th><i class="far fa-calendar-alt"></i> তারিখ</th>
+                            <th><i class="fas fa-tasks"></i> খরচের খাত</th>
+                            <th><i class="fas fa-dollar-sign"></i> টাকা</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataTableBody">
+                        <!-- Data will be loaded here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Summary Section (Total & Delete) -->
+            <section class="summary-section">
+                <div id="totalSection">
+                    <span>মোট খরচ:</span> <span id="totalAmount">0</span>
+                </div>
+                <div id="deleteContainer">
+                    <button id="deleteAllBtn"><i class="fas fa-trash-alt"></i> সব মুছুন</button>
+                    <!-- Delete Confirmation Popup -->
+                    <div id="deleteConfirmation">
+                        <p><i class="fas fa-exclamation-triangle" style="color: #c0392b;"></i> আপনি কি নিশ্চিত? <span id="deleteCountdown">10</span> সেকেন্ডের মধ্যে সব তথ্য মুছে যাবে।</p>
+                        <button id="cancelDeleteBtn"><i class="fas fa-times"></i> বাতিল করুন</button>
+                    </div>
+               </div>
+            </section>
+
+            <hr style="border: none; border-top: 1px solid var(--border-color); margin: 35px 0;">
+
+             <!-- Form Section -->
+            <h1><i class="fas fa-plus-circle"></i> হিসাব যোগ করুন</h1>
+            <form id="incomeForm">
+                <div>
+                    <label for="dateInput">তারিখ:</label>
+                    <input type="date" id="dateInput" required>
+                </div>
+                <div>
+                    <label for="textInput">খরচের খাত:</label>
+                    <input type="text" id="textInput" placeholder="খরচের বিবরণ লিখুন" required>
+                </div>
+                <div>
+                    <label for="numberInput">টাকা:</label>
+                    <input type="number" id="numberInput" placeholder="টাকার পরিমাণ লিখুন" step="any" required min="0.01">
+                </div>
+                <button type="submit"><i class="fas fa-paper-plane"></i> যোগ করুন</button>
+            </form>
+
+        </main> <!-- End content-container -->
+
+    </div> <!-- End container-wrapper -->
+
+    <footer>
+        © 2024 তৈরি করেছেন <a class="fot" href="https://www.facebook.com/4nazrul.islam" target="_blank" rel="noopener noreferrer">মোঃ নজরুল ইসলাম</a>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+
+    <script type="text/javascript" charset="utf-8">
+        // Your Firebase configuration (KEEP THIS SECURE - Consider environment variables for production)
+        const firebaseConfig = {
+          apiKey: "AIzaSyDMtl_OolzCM699u8GsXYByKGzCdZcZE0g", // WARNING: API keys should ideally not be directly in client-side code.
+          authDomain: "income-details-7831b.firebaseapp.com",
+          databaseURL: "https://income-details-7831b-default-rtdb.firebaseio.com",
+          projectId: "income-details-7831b",
+          storageBucket: "income-details-7831b.appspot.com",
+          messagingSenderId: "879276775958",
+          appId: "1:879276775958:web:14546def9134efc5c4b337"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const entriesRef = database.ref('incomeEntries'); // Reference specific to this user/page if needed later
+
+        // Get DOM elements
+        const incomeForm = document.getElementById('incomeForm');
+        const dateInput = document.getElementById('dateInput');
+        const textInput = document.getElementById('textInput');
+        const numberInput = document.getElementById('numberInput');
+        const dataTableBody = document.getElementById('dataTableBody');
+        const totalAmountSpan = document.getElementById('totalAmount');
+        const successAlert = document.getElementById('successAlert');
+        const deleteAllBtn = document.getElementById('deleteAllBtn');
+        const deleteConfirmation = document.getElementById('deleteConfirmation');
+        const deleteCountdownSpan = document.getElementById('deleteCountdown');
+        const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+
+        let currentTotal = 0;
+        let deleteTimer = null;
+        let countdownValue = 10;
+        let alertTimeout = null; // To manage hiding the alert
+
+        // --- Helper Functions ---
+
+        // Function to show and hide the success alert
+        const showSuccessAlert = (message = "সফলভাবে সংরক্ষিত হয়েছে!") => {
+            // Clear any existing timer to prevent premature hiding
+            if (alertTimeout) clearTimeout(alertTimeout);
+
+            successAlert.textContent = message;
+            successAlert.classList.add('show');
+
+            // Automatically hide after a few seconds
+            alertTimeout = setTimeout(() => {
+                successAlert.classList.remove('show');
+                alertTimeout = null; // Clear the timeout ID
+            }, 3000); // Hide after 3 seconds
+        };
+
+        // Function to format date as dd/mm/yyyy (Bengali numerals optional, keeping standard for clarity)
+        const formatDate = (dateString) => {
+            if (!dateString || !dateString.includes('-')) return dateString;
+            try {
+                const date = new Date(dateString + 'T00:00:00'); // Ensure parsing as local date
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
+                const year = date.getFullYear();
+                return `${day}/${month}/${year}`;
+                 // For Bengali numerals (more complex, might require a library or manual mapping)
+                 // const bengaliNumerals = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+                 // return `${day.split('').map(d => bengaliNumerals[d]).join('')}/${month.split('').map(m => bengaliNumerals[m]).join('')}/${year.split('').map(y => bengaliNumerals[y]).join('')}`;
+            } catch (e) {
+                console.error("Error formatting date:", e);
+                return dateString; // Fallback
+            }
+        };
+
+        // Function to format numbers (optional: use Bengali numerals)
+        const formatNumber = (num) => {
+             // Simple formatting with comma separation (optional)
+             // return parseFloat(num).toLocaleString('en-IN'); // Example: Indian English locale
+
+             // Keep it simple for now, just return the number as string
+             return String(parseFloat(num));
+
+             // For Bengali numerals:
+             // const bengaliNumerals = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+             // return String(num).split('').map(digit => bengaliNumerals[digit] || digit).join(''); // Handle non-digits too
+        };
+
+
+        // Function to add a row to the table
+        const addEntryToTable = (entryData, entryId) => {
+            const newRow = dataTableBody.insertRow(); // Appends row to the end
+            newRow.setAttribute('data-id', entryId);
+            newRow.setAttribute('data-amount', entryData.amount); // Store the numeric amount
+            newRow.style.opacity = 0;
+
+            const dateCell = newRow.insertCell(0);
+            const textCell = newRow.insertCell(1);
+            const numberCell = newRow.insertCell(2);
+
+            dateCell.textContent = formatDate(entryData.date);
+            textCell.textContent = entryData.description;
+            numberCell.textContent = formatNumber(entryData.amount); // Format number
+            numberCell.style.textAlign = 'right';
+
+            // Fade-in animation
+            setTimeout(() => {
+                newRow.style.transition = 'opacity 0.5s ease';
+                newRow.style.opacity = 1;
+            }, 50);
+
+            updateTotal(); // Update total after adding row
+        };
+
+        // Function to calculate and display the total sum
+        const updateTotal = () => {
+            currentTotal = 0;
+            const rows = dataTableBody.querySelectorAll('tr');
+            rows.forEach(row => {
+                const amount = parseFloat(row.getAttribute('data-amount'));
+                if (!isNaN(amount)) {
+                    currentTotal += amount;
+                }
+            });
+            // Display total, potentially formatted
+            totalAmountSpan.textContent = formatNumber(currentTotal.toFixed(0)); // Display total as integer
+        };
+
+        // Function to reset delete UI
+        const resetDeleteUI = () => {
+            clearInterval(deleteTimer);
+            deleteTimer = null;
+            countdownValue = 10;
+            deleteConfirmation.style.display = 'none';
+            deleteAllBtn.disabled = false;
+            deleteAllBtn.style.opacity = 1; // Ensure button is visible
+            deleteCountdownSpan.textContent = formatNumber(countdownValue); // Format countdown
+        };
+
+        // --- Event Listeners ---
+
+        // 1. Form submission
+        incomeForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const dateValue = dateInput.value;
+            const textValue = textInput.value.trim();
+            const numberValueInput = parseFloat(numberInput.value);
+
+            // Validation
+            let isValid = true;
+            // Reset previous errors
+            [dateInput, textInput, numberInput].forEach(input => input.style.borderColor = '');
+
+            if (!dateValue) {
+                dateInput.style.borderColor = 'var(--error-color)';
+                isValid = false;
+            }
+            if (!textValue) {
+                textInput.style.borderColor = 'var(--error-color)';
+                isValid = false;
+            }
+            if (isNaN(numberValueInput) || numberValueInput <= 0) {
+                numberInput.style.borderColor = 'var(--error-color)';
+                isValid = false;
+            }
+
+            if (!isValid) {
+                 showSuccessAlert("অনুগ্রহ করে সব ঘর সঠিকভাবে পূরণ করুন।"); // Use alert for error feedback
+                return;
+            }
+
+            // Amount to save (using floor as per original logic)
+            const amountToSave = Math.floor(numberValueInput);
+
+            const newEntry = {
+                date: dateValue,
+                description: textValue,
+                amount: amountToSave,
+                timestamp: firebase.database.ServerValue.TIMESTAMP
+            };
+
+             // Disable submit button during save
+             const submitButton = incomeForm.querySelector('button[type="submit"]');
+             submitButton.disabled = true;
+             submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> সংরক্ষণ হচ্ছে...';
+
+
+            // Push data to Firebase
+            entriesRef.push(newEntry)
+                .then(() => {
+                    console.log('Data saved successfully!');
+                    showSuccessAlert("সফলভাবে যোগ হয়েছে!");
+                    incomeForm.reset();
+                    dateInput.value = new Date().toISOString().split('T')[0]; // Reset date to today
+                    // 'child_added' listener handles adding to table
+                })
+                .catch((error) => {
+                    console.error('Error saving data: ', error);
+                    showSuccessAlert("সংরক্ষণে ত্রুটি হয়েছে।"); // Error feedback
+                })
+                .finally(() => {
+                     // Re-enable submit button
+                     submitButton.disabled = false;
+                     submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> যোগ করুন';
+                 });
+        });
+
+        // 2. Listen for new entries (ordered by timestamp)
+        entriesRef.orderByChild('timestamp').on('child_added', (snapshot) => {
+            const entryData = snapshot.val();
+            const entryId = snapshot.key;
+            if(entryData) { // Ensure data exists before adding
+                 addEntryToTable(entryData, entryId);
+            }
+        });
+
+        // 3. Listen for removed entries
+        entriesRef.on('child_removed', (snapshot) => {
+            const removedRow = dataTableBody.querySelector(`tr[data-id="${snapshot.key}"]`);
+            if (removedRow) {
+                removedRow.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                removedRow.style.opacity = 0;
+                removedRow.style.transform = 'translateX(-20px)'; // Slide out effect
+                setTimeout(() => {
+                    if (removedRow.parentNode === dataTableBody) {
+                        dataTableBody.removeChild(removedRow);
+                    }
+                    updateTotal(); // Update total after removal animation
+                }, 400); // Match transition duration
+            } else {
+                 updateTotal(); // Still update total if row somehow not found
+            }
+        });
+
+        // 4. Delete All button click
+        deleteAllBtn.addEventListener('click', () => {
+            if (deleteTimer) return;
+
+            if (dataTableBody.rows.length === 0) {
+                 showSuccessAlert("মোছার জন্য কোনও ডেটা নেই!");
+                 return;
+             }
+
+            deleteAllBtn.disabled = true;
+            deleteAllBtn.style.opacity = 0.7;
+            deleteConfirmation.style.display = 'block';
+            countdownValue = 10;
+            deleteCountdownSpan.textContent = formatNumber(countdownValue);
+
+            deleteTimer = setInterval(() => {
+                countdownValue--;
+                deleteCountdownSpan.textContent = formatNumber(countdownValue);
+
+                if (countdownValue <= 0) {
+                    clearInterval(deleteTimer);
+                    deleteTimer = null;
+                    console.log('Deleting all entries...');
+                    deleteConfirmation.style.display = 'none'; // Hide confirmation immediately
+
+                    // Perform the Deletion
+                    entriesRef.remove()
+                        .then(() => {
+                            console.log('All data successfully deleted from Firebase.');
+                            // 'child_removed' handles UI rows, but clear instantly for responsiveness
+                            dataTableBody.innerHTML = '';
+                            updateTotal();
+                            showSuccessAlert("সমস্ত ডেটা মুছে ফেলা হয়েছে।");
+                        })
+                        .catch((error) => {
+                            console.error('Error deleting data: ', error);
+                            showSuccessAlert('ডেটা মুছতে সমস্যা হয়েছে।');
+                        })
+                        .finally(() => {
+                            resetDeleteUI(); // Reset UI state
+                        });
+                }
+            }, 1000);
+        });
+
+        // 5. Cancel Delete button click
+        cancelDeleteBtn.addEventListener('click', () => {
+            resetDeleteUI();
+            console.log('Deletion cancelled.');
+            showSuccessAlert("মোছা বাতিল করা হয়েছে।");
+        });
+
+
+        // --- Initial Load ---
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.value = today;
+
+        // Initial total calculation (in case data loads before listeners attach fully or is empty)
+         // Use a slight delay to ensure data might have loaded via listener
+         setTimeout(updateTotal, 500);
+
+
+        // Optional: Add simple interaction to profile image
+        const profileImage = document.getElementById('clickTarget');
+        if(profileImage) {
+            profileImage.addEventListener('click', () => {
+                profileImage.style.transform = 'scale(1.1) rotate(10deg)';
+                setTimeout(() => {
+                    profileImage.style.transform = 'scale(1) rotate(0deg)';
+                }, 300);
+            });
+        }
+
+
+    </script>
+</body>
+</html>
