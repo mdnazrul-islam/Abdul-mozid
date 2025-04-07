@@ -572,7 +572,7 @@
                     <span>মোট খরচ:</span> <span id="totalAmount">0</span>
                 </div>
                 <div id="deleteContainer">
-                    <button id="deleteAllBtn"><i class="fas fa-trash-alt"></i> সব মুছুন</button>
+                    <button id="deleteAllBtn"><i class="fas fa-trash-alt"></i>Delete</button>
                     <!-- Delete Confirmation Popup -->
                     <div id="deleteConfirmation">
                         <p><i class="fas fa-exclamation-triangle" style="color: #c0392b;"></i> আপনি কি নিশ্চিত? <span id="deleteCountdown">10</span> সেকেন্ডের মধ্যে সব তথ্য মুছে যাবে।</p>
@@ -606,7 +606,7 @@
     </div> <!-- End container-wrapper -->
 
     <footer>
-        © 2024 তৈরি করেছেন <a class="fot" href="https://www.facebook.com/4nazrul.islam" target="_blank" rel="noopener noreferrer">মোঃ নজরুল ইসলাম</a>
+        © 2025 created by<a class="fot" href="https://www.facebook.com/4nazrul.islam" target="_blank" rel="noopener noreferrer">MD NAZRUL ISLAM</a>
     </footer>
 
     <!-- Firebase SDK -->
@@ -673,7 +673,7 @@
                 const day = String(date.getDate()).padStart(2, '0');
                 const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
                 const year = date.getFullYear();
-                return `${day}/${month}/${year}`;
+                return `${day}/${month}`;
                  // For Bengali numerals (more complex, might require a library or manual mapping)
                  // const bengaliNumerals = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
                  // return `${day.split('').map(d => bengaliNumerals[d]).join('')}/${month.split('').map(m => bengaliNumerals[m]).join('')}/${year.split('').map(y => bengaliNumerals[y]).join('')}`;
