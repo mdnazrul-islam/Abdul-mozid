@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abdul Mozid</title>
-    <link rel="icon" href="https://i.ibb.co.com/VGMRnFj/1744019580005.jpg" type="image/jpeg" />
+    <title>মাটি কাটার হিসাব</title>
+    <link rel="icon" href="https://iili.io/3GTtWAB.md.jpg" />
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -78,8 +78,8 @@
         }
 
         .profile-header img {
-            height: 100px;
-            width: 100px;
+            height: 150px;
+            width: 150px;
             padding: 4px;
             background-color: var(--white-color);
             border: 2px solid var(--primary-light-color);
@@ -540,9 +540,9 @@
 
         <!-- Profile Header -->
         <header class="profile-header">
-            <img id="clickTarget" src="https://i.ibb.co.com/VGMRnFj/1744019580005.jpg" alt="Abdul Mozid Profile Picture" />
+            <img id="clickTarget" src="https://iili.io/3GTtWAB.md.jpg" alt="Abdul Mozid Profile Picture" />
             <div class="name">
-                আব্দুল মজিদ
+                নজরুল ইসলাম
             </div>
         </header>
 
@@ -572,7 +572,7 @@
                     <span>মোট খরচ:</span> <span id="totalAmount">0</span>
                 </div>
                 <div id="deleteContainer">
-                    <button id="deleteAllBtn"><i class="fas fa-trash-alt"></i>Delete</button>
+                    <button id="deleteAllBtn"><i class="fas fa-trash-alt"></i> সব মুছুন</button>
                     <!-- Delete Confirmation Popup -->
                     <div id="deleteConfirmation">
                         <p><i class="fas fa-exclamation-triangle" style="color: #c0392b;"></i> আপনি কি নিশ্চিত? <span id="deleteCountdown">10</span> সেকেন্ডের মধ্যে সব তথ্য মুছে যাবে।</p>
@@ -606,7 +606,7 @@
     </div> <!-- End container-wrapper -->
 
     <footer>
-        © 2025 created by<a class="fot" href="https://www.facebook.com/4nazrul.islam" target="_blank" rel="noopener noreferrer">MD NAZRUL ISLAM</a>
+        © 2024 তৈরি করেছেন <a class="fot" href="https://www.facebook.com/4nazrul.islam" target="_blank" rel="noopener noreferrer">মোঃ নজরুল ইসলাম</a>
     </footer>
 
     <!-- Firebase SDK -->
@@ -628,7 +628,7 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
-        const entriesRef = database.ref('incomeEntries'); // Reference specific to this user/page if needed later
+        const entriesRef = database.ref('matir hishab'); // Reference specific to this user/page if needed later
 
         // Get DOM elements
         const incomeForm = document.getElementById('incomeForm');
@@ -919,4 +919,4 @@
 
     </script>
 </body>
-</html>
+    </html
